@@ -9,12 +9,18 @@ RUN mkdir -p /bind/etc \
 
 RUN apk --update --no-cache add \
     bash \
-    bind
+    bind \
+    shadow
 
 ADD ./source/named.conf /bind/etc/named.conf
 ADD ./source/zones.conf /bind/etc/zones.conf
 
 RUN chown -R named:named /bind
+
+# :: docker -u 1000:1000 (no root initiative)
+RUN usermod -u 1000 named \
+	&& groupmod -g 1000 named \
+	&& chown -R named:named /bind
 
 # :: Volumes
 VOLUME ["/bind/etc", "/bind/var"]

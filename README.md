@@ -20,6 +20,10 @@ docker run --name nginx \
     -d 11notes/bind:latest
 ```
 
+## Docker -u 1000:1000 (no root initiative)
+
+As part to make containers more secure, this container will not run as root, but as uid:gid 1000:1000.
+
 ## Build with
 
 * [Alpine Linux](https://alpinelinux.org/) - Alpine Linux
