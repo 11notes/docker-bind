@@ -16,6 +16,8 @@ RUN rm -R /etc/bind
 ADD ./source/named.conf /bind/etc/named.conf
 ADD ./source/zones.conf /bind/etc/zones.conf
 
+RUN chown -R named:named /bind
+
 # :: Volumes
 VOLUME ["/bind/etc", "/bind/var"]
 
