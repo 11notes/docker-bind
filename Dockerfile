@@ -1,21 +1,24 @@
-# ------ Header ------ #
-FROM alpine:latest
+# :: Header
+FROM alpine:3.9
 
-#   // add bind
-RUN apk update \
-    && apk add --update bash \
-    && apk add --no-cache bind
+# :: Run
+USER root
 
-#   // create directory for zone configuration files
-RUN mkdir -p /var/zones \
-#   // delete default files
-    && rm -R /etc/bind/*
+RUN mkdir -p /bind/etc \
+    && mkdir -p /bind/var
 
-#   // add default bind config for internal, external view + recursion
-ADD ./named.conf /etc/bind/named.conf
+RUN apk --update --no-cache add \
+    bash \
+    bind
 
-# ------ define volumes ------ #
-VOLUME ["/etc/bind", "/var/zones"]
+RUN rm -R /etc/bind
 
-# ------ entrypoint for container ------ #
-CMD ["/usr/sbin/named", "-fg", "-c", "/etc/bind/named.conf"]
+ADD ./source/named.conf /bind/etc/named.conf
+ADD ./source/zones.conf /bind/etc/zones.conf
+
+# :: Volumes
+VOLUME ["/bind/etc", "/bind/var"]
+
+# :: Start
+USER named
+CMD ["/usr/sbin/named", "-fg", "-c", "/bind/etc/named.conf"]
