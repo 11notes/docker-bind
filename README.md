@@ -15,7 +15,7 @@ Purpose: zone files directory
 ## Run
 ```shell
 docker run --name nginx \
-    -v volume-etc:/etc/bind:ro \
+    -v volume-etc:/etc/bind \
     -v volume-zones:/var/zones:ro \
     -d 11notes/bind:latest
 ```

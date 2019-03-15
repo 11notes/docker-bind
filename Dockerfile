@@ -4,19 +4,20 @@ FROM alpine:3.9
 # :: Run
 USER root
 
+RUN mkdir -p /bind/etc \
+    && mkdir -p /bind/var
+
 RUN apk --update --no-cache add \
     bash \
     bind
 
-RUN mkdir -p /var/zones
+ADD ./source/named.conf /bind/etc/named.conf
+ADD ./source/zones.conf /bind/etc/zones.conf
 
-ADD ./source/named.conf /etc/bind/named.conf
-ADD ./source/zones.conf /etc/bind/zones.conf
-
-RUN chown -R named:named /etc/bind
+RUN chown -R named:named /bind
 
 # :: Volumes
-VOLUME ["/etc/bind", "/var/zones"]
+VOLUME ["/bind/etc", "/bind/var"]
 
 # :: Start
 USER named
