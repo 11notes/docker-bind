@@ -8,15 +8,15 @@ Dockerfile to create and run your own named process inside an alpine docker cont
 
 Purpose: named config directory
 
-/var/zones
+/bind/var
 
 Purpose: zone files directory
 
 ## Run
 ```shell
 docker run --name nginx \
-    -v volume-etc:/etc/bind \
-    -v volume-zones:/var/zones:ro \
+    -v volume-etc:/bind/etc \
+    -v volume-zones:/bind/var:ro \
     -d 11notes/bind:latest
 ```
 

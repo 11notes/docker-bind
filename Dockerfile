@@ -1,5 +1,5 @@
 # :: Header
-FROM alpine:3.9
+FROM alpine:3.10
 
 # :: Run
 RUN mkdir -p /bind/etc \
@@ -14,6 +14,9 @@ ADD ./source/named.conf /bind/etc/named.conf
 ADD ./source/zones.conf /bind/etc/zones.conf
 
 RUN chown -R named:named /bind
+
+# :: Version
+RUN echo "CI/CD{{$(named -v 2>&1)}}"
 
 # :: docker -u 1000:1000 (no root initiative)
 RUN usermod -u 1000 named \
