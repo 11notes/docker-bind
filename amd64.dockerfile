@@ -13,7 +13,7 @@
 		RUN set -ex; \
 			apk add --update --no-cache \
 				bash \
-                bind=9.18.3-r2\
+                bind>=9.16.29 \
 				shadow;
 
 		RUN set -ex; \
