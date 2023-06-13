@@ -24,7 +24,7 @@ docker run --name bind \
 * [11notes/alpine:stable](https://github.com/11notes/docker-alpine)
 
 ## Built with
-* [bind](https://www.isc.org/downloads/bind) maintained by [Francesco Colista](https://pkgs.alpinelinux.org/packages?name=certbot&branch=v3.18&repo=&arch=&maintainer=Francesco%20Colista)
+* [bind](https://www.isc.org/downloads/bind) maintained by [Mike Crute](https://pkgs.alpinelinux.org/packages?name=bind&branch=v3.18&repo=&arch=&maintainer=Mike%20Crute)
 * [Alpine Linux](https://alpinelinux.org)
 
 ## Tips
