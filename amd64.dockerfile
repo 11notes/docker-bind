@@ -1,6 +1,7 @@
 # :: Header
   FROM 11notes/alpine:stable
   ENV APP_VERSION=9.18.14-r1
+  ENV APP_ROOT=/bind
 
 # :: Run
   USER root
@@ -12,8 +13,8 @@
 
   # :: prepare image
     RUN set -ex; \
-      mkdir -p /bind/etc \
-      mkdir -p /bind/var;
+      mkdir -p ${APP_ROOT}/etc \
+      mkdir -p ${APP_ROOT}/var;
 
   # :: install application
     RUN set -ex; \
@@ -29,13 +30,13 @@
 
   # :: change home path for existing user and set correct permission
     RUN set -ex; \
-      usermod -d /bind docker; \
+      usermod -d ${APP_ROOT} docker; \
       chown -R 1000:1000 \
-        /bind \
+        ${APP_ROOT} \
         /var/run/named;
 
 # :: Volumes
-  VOLUME ["/bind/etc", "/bind/var"]
+  VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
 
 # :: Monitor
   HEALTHCHECK CMD /usr/local/bin/healthcheck.sh || exit 1
