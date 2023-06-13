@@ -1,46 +1,45 @@
 # :: Header
-FROM alpine:latest
-ENV binVersion=9.18.13-r0
+  FROM 11notes/alpine:stable
+  ENV APP_VERSION=9.18.14-r1
 
 # :: Run
-	USER root
+  USER root
 
-	# :: prepare
-		RUN set -ex; \
-			mkdir -p /bind; \
-			mkdir -p /bind/etc \
-			mkdir -p /bind/var;
+  # :: update image
+    RUN set -ex; \
+      apk update; \
+      apk upgrade;
 
-	# :: install
-		RUN set -ex; \
-			apk add --update --no-cache \
-				bash \
-				bind>=${binVersion} \
-				bind-tools \
-				shadow;
+  # :: prepare image
+    RUN set -ex; \
+      mkdir -p /bind/etc \
+      mkdir -p /bind/var;
 
-	# :: configure
-		RUN set -ex; \
-			addgroup --gid 1000 -S bind; \
-			adduser --uid 1000 -D -S -h /bind -s /sbin/nologin -G bind bind;
+  # :: install application
+    RUN set -ex; \
+      apk --update --no-cache add \
+        bash \
+        bind=${APP_VERSION} \
+        bind-tools;
 
-	# :: copy root filesystem changes
-		COPY ./rootfs /
+  # :: copy root filesystem changes and add execution rights to init scripts
+    COPY ./rootfs /
+    RUN set -ex; \
+      chmod +x -R /usr/local/bin
 
-	# :: docker -u 1000:1000 (no root initiative)
-		RUN set -ex; \
-		chown -R bind:bind \
-			/bind \
-			/var/run/named;
+  # :: change home path for existing user and set correct permission
+    RUN set -ex; \
+      usermod -d /bind docker; \
+      chown -R 1000:1000 \
+        /bind \
+        /var/run/named;
 
 # :: Volumes
-	VOLUME ["/bind/etc", "/bind/var"]
+  VOLUME ["/bind/etc", "/bind/var"]
 
 # :: Monitor
-	RUN set -ex; chmod +x /usr/local/bin/healthcheck.sh
-	HEALTHCHECK CMD /usr/local/bin/healthcheck.sh || exit 1
+  HEALTHCHECK CMD /usr/local/bin/healthcheck.sh || exit 1
 
 # :: Start
-	RUN set -ex; chmod +x /usr/local/bin/entrypoint.sh
-	USER bind
-	ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]	
+  USER docker
+  ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]	

@@ -1,34 +1,32 @@
-# docker-bind
-
-Dockerfile to create and run your own named process inside an alpine docker container.
+# Alpine :: Bind (DNS)
+Run Bind (DNS) based on Alpine Linux. Small, lightweight, secure and fast 🏔️
 
 ## Volumes
-
-/bind/etc
-
-Purpose: named config directory
-
-/bind/var
-
-Purpose: zone files directory
+* **/bind/etc** - Directory of named.conf
+* **/bind/var** - Directory of zone files
 
 ## Run
 ```shell
-docker run --name nginx \
-    -v volume-etc:/bind/etc \
-    -v volume-zones:/bind/var:ro \
-    -d 11notes/bind:latest
+docker run --name bind \
+  -v ../etc:/bind/etc \
+  -v ../var:/bind/var \
+  -d 11notes/bind:[tag]
 ```
 
-## Docker -u 1000:1000 (no root initiative)
+## Defaults
+| Parameter | Value | Description |
+| --- | --- | --- |
+| `user` | docker | user docker |
+| `uid` | 1000 | user id 1000 |
+| `gid` | 1000 | group id 1000 |
 
-As part to make containers more secure, this container will not run as root, but as uid:gid 1000:1000.
+## Parent
+* [11notes/alpine:stable](https://github.com/11notes/docker-alpine)
 
-## Build with
-
-* [Alpine Linux](https://alpinelinux.org/) - Alpine Linux
-* [bind/named](https://www.isc.org/downloads/bind/) - bind
+## Built with
+* [bind](https://www.isc.org/downloads/bind)
+* [Alpine Linux](https://alpinelinux.org)
 
 ## Tips
-
-* [Permanent Storge with NFS/CIFS/...](https://github.com/11notes/alpine-docker-netshare) - Module to store permanent container data via NFS/CIFS/...
+* Don't bind to ports < 1024 (requires root), use NAT/reverse proxy
+* [Permanent Storage](https://github.com/11notes/alpine-docker-netshare) - Module to store permanent container data via NFS/CIFS and more
