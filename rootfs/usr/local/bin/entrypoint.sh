@@ -3,7 +3,7 @@
     set -- "named" \
       -fg \
       -c "/bind/etc/named.conf"  \
-      -u bind
+      -u docker
   fi
 
   exec "$@"
