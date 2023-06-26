@@ -1,6 +1,6 @@
 # :: Header
   FROM 11notes/alpine:stable
-  ENV APP_VERSION=9.18.14-r1
+  ENV APP_VERSION=9.18.16-r0
   ENV APP_ROOT=/bind
 
 # :: Run
@@ -21,6 +21,7 @@
       apk --update --no-cache add \
         bash \
         bind=${APP_VERSION} \
+        bind-dnssec-tools \
         bind-tools;
 
   # :: copy root filesystem changes and add execution rights to init scripts
