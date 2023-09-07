@@ -13,18 +13,24 @@ docker run --name bind \
   -d 11notes/bind:[tag]
 ```
 
+Update root db (will also update at container start)
+```shell
+docker exec bind rootdb
+```
+
 ## Defaults
 | Parameter | Value | Description |
 | --- | --- | --- |
 | `user` | docker | user docker |
 | `uid` | 1000 | user id 1000 |
 | `gid` | 1000 | group id 1000 |
+| `home` | /bind | home directory of user docker |
 
 ## Parent
 * [11notes/alpine:stable](https://github.com/11notes/docker-alpine)
 
 ## Built with
-* [bind](https://www.isc.org/downloads/bind) maintained by [Mike Crute](https://pkgs.alpinelinux.org/packages?name=bind&branch=v3.18&repo=&arch=&maintainer=Mike%20Crute)
+* [bind](https://www.isc.org/downloads/bind)
 * [Alpine Linux](https://alpinelinux.org)
 
 ## Tips
