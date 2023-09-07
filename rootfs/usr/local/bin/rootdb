@@ -1,0 +1,2 @@
+#!/bin/ash
+  dig +bufsize=1200 +norec NS . @a.root-servers.net | egrep -v ';|^$' | egrep -v '\S.+AAAA.+|^$' | sort > /bind/var/root.db

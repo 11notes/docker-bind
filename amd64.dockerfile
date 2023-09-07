@@ -6,11 +6,6 @@
 # :: Run
   USER root
 
-  # :: update image
-    RUN set -ex; \
-      apk update; \
-      apk upgrade;
-
   # :: prepare image
     RUN set -ex; \
       mkdir -p ${APP_ROOT}/etc \
@@ -18,11 +13,13 @@
 
   # :: install application
     RUN set -ex; \
-      apk --update --no-cache add \
+      apk --no-cache add \
         bash \
         bind=${APP_VERSION} \
         bind-dnssec-tools \
-        bind-tools;
+        bind-tools \
+        bind-plugins; \
+      apk --no-cache upgrade;
 
   # :: copy root filesystem changes and add execution rights to init scripts
     COPY ./rootfs /
@@ -34,7 +31,8 @@
       usermod -d ${APP_ROOT} docker; \
       chown -R 1000:1000 \
         ${APP_ROOT} \
-        /var/run/named;
+        /var/run/named \
+        /usr/lib/bind;
 
 # :: Volumes
   VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
