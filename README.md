@@ -13,7 +13,7 @@ docker run --name bind \
   -d 11notes/bind:[tag]
 ```
 
-Update root db (will also update at container start)
+Update root db (will update on start if does not exist)
 ```shell
 docker exec bind rootdb
 ```
@@ -35,4 +35,3 @@ docker exec bind rootdb
 
 ## Tips
 * Don't bind to ports < 1024 (requires root), use NAT/reverse proxy
-* [Permanent Storage](https://github.com/11notes/alpine-docker-netshare) - Module to store permanent container data via NFS/CIFS and more

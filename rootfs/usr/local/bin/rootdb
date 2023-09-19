@@ -1,2 +1,8 @@
 #!/bin/ash
-  dig +bufsize=1200 +norec NS . @a.root-servers.net | egrep -v ';|^$' | egrep -v '\S.+AAAA.+|^$' | sort > /bind/var/root.db
+  if [ ! -f "/bind/var/root.db" ]; then
+    ROOT_DB_NS=198.41.0.4
+  else
+    ROOT_DB_NS=a.root-servers.net
+  fi
+
+  dig +bufsize=1200 +norec NS . @${ROOT_DB_NS} | egrep -v ';|^$' | egrep -v '\S.+AAAA.+|^$' | sort > /bind/var/root.db
