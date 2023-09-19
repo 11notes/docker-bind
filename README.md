@@ -1,4 +1,6 @@
 # Alpine :: Bind (DNS)
+![pulls](https://img.shields.io/docker/pulls/11notes/bind?color=2b75d6) ![build](https://img.shields.io/docker/automated/11notes/bind?color=2b75d6) ![activity](https://img.shields.io/github/commit-activity/m/11notes/docker-bind?color=c91cb8) ![commit-last](https://img.shields.io/github/last-commit/11notes/docker-bind?color=c91cb8)
+
 Run Bind (DNS) based on Alpine Linux. Small, lightweight, secure and fast 🏔️
 
 ## Volumes
