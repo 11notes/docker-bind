@@ -8,7 +8,8 @@
     set -- "named" \
       -fg \
       -c "/bind/etc/named.conf"  \
-      -u docker
+      -u docker \
+      -4
   fi
 
   exec "$@"

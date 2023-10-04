@@ -1,6 +1,22 @@
+# :: Build
+  FROM 11notes/apk-build:stable as build
+  ENV APK_NAME="bind"
+
+  RUN set -ex; \
+    cd ~; \
+    newapkbuild ${APK_NAME};
+
+  COPY ./build /apk/${APK_NAME}
+
+  RUN set -ex; \
+    cd ~/${APK_NAME}; \
+    abuild checksum; \
+    abuild -r; \
+    ls -lah /apk/packages;
+
 # :: Header
   FROM 11notes/alpine:stable
-  ENV APP_VERSION=9.18.16-r0
+  COPY --from=build /apk/packages/apk /tmp
   ENV APP_ROOT=/bind
 
 # :: Run
@@ -8,17 +24,15 @@
 
   # :: prepare image
     RUN set -ex; \
+      ls -lah /tmp; \
       mkdir -p ${APP_ROOT}/etc \
-      mkdir -p ${APP_ROOT}/var;
+      mkdir -p ${APP_ROOT}/var; \
+      mkdir -p /var/run/named;
 
   # :: install application
     RUN set -ex; \
-      apk --no-cache add \
-        bash \
-        bind=${APP_VERSION} \
-        bind-dnssec-tools \
-        bind-tools \
-        bind-plugins; \
+      apk add --allow-untrusted --repository /tmp bind; \
+      rm -rf /tmp/*; \
       apk --no-cache upgrade;
 
   # :: copy root filesystem changes and add execution rights to init scripts
@@ -31,8 +45,7 @@
       usermod -d ${APP_ROOT} docker; \
       chown -R 1000:1000 \
         ${APP_ROOT} \
-        /var/run/named \
-        /usr/lib/bind;
+        /var/run/named;
 
 # :: Volumes
   VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
