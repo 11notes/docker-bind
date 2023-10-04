@@ -1,6 +1,7 @@
 # :: Build
   FROM 11notes/apk-build:stable as build
   ENV APK_NAME="bind"
+  ENV APK_VERSION="9.18.19"
 
   RUN set -ex; \
     cd ~; \
@@ -10,6 +11,7 @@
 
   RUN set -ex; \
     cd ~/${APK_NAME}; \
+    sed -i "s/\$APK_VERSION/${APK_VERSION}/g" ./APKBUILD; \
     abuild checksum; \
     abuild -r; \
     ls -lah /apk/packages;

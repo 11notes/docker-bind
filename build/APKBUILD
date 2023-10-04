@@ -5,7 +5,7 @@
 # Contributor: ungleich <alpinelinux@ungleich.ch>
 # Maintainer: Mike Crute <mike@crute.us>
 pkgname=bind
-pkgver=9.18.19
+pkgver=$APK_VERSION
 _ver=${pkgver%_p*}
 _p=${pkgver#*_p}
 _major=${pkgver%%.*}
