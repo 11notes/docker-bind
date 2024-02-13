@@ -13,7 +13,6 @@
   FROM 11notes/apk-build:arm64v8-stable as build
   COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
   ENV BUILD_NAME="bind"
-  ENV BUILD_VERSION="9.18.19"
 
   RUN set -ex; \
     cd ~; \
@@ -23,7 +22,6 @@
 
   RUN set -ex; \
     cd ~/${BUILD_NAME}; \
-    sed -i "s/\$BUILD_VERSION/${BUILD_VERSION}/g" ./APKBUILD; \
     abuild checksum; \
     abuild -r; \
     ls -lah /apk/packages;
