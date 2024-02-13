@@ -10,8 +10,7 @@
     git clone https://github.com/11notes/util.git;
 
 # :: Build
-  FROM 11notes/apk-build:arm64v8-stable as build
-  COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
+  FROM 11notes/apk-build:stable as build
   ENV BUILD_NAME="bind"
 
   RUN set -ex; \
