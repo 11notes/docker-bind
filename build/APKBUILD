@@ -172,7 +172,8 @@ build() {
     --enable-linux-caps \
     --enable-shared \
     --disable-static \
-    --enable-full-report
+    --enable-full-report \
+    --enable-filter-aaaa
 	make
 }
 
