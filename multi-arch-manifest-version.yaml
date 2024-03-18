@@ -1,0 +1,11 @@
+image: 11notes/bind:9.18.24
+manifests:
+  - image: 11notes/bind:9.18.24
+    platform:
+      architecture: amd64
+      os: linux
+  - image: 11notes/bind:9.18.24
+    platform:
+      architecture: arm64
+      os: linux
+      variant: v8
