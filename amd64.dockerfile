@@ -8,24 +8,15 @@
 
 # :: Build
   FROM 11notes/apk-build:stable as build
-  ENV BUILD_NAME="bind"
-
+  ENV APK_NAME="bind"
+  COPY ./build /src
   RUN set -ex; \
-    cd ~; \
-    newapkbuild ${BUILD_NAME};
-
-  COPY ./build /apk/${BUILD_NAME}
-
-  RUN set -ex; \
-    cd ~/${BUILD_NAME}; \
-    abuild checksum; \
-    abuild -r; \
-    ls -lah /apk/packages;
+    apk-build
 
 # :: Header
   FROM 11notes/alpine:stable
   COPY --from=util /util/linux/shell/elevenLogJSON /usr/local/bin
-  COPY --from=build /apk/packages/apk /tmp
+  COPY --from=build /apk /apk/custom
   ENV APP_ROOT=/bind
 
 # :: Run
@@ -40,8 +31,7 @@
 
   # :: install application
     RUN set -ex; \
-      apk add --allow-untrusted --repository /tmp bind; \
-      rm -rf /tmp/*; \
+      apk add --no-cache --allow-untrusted --repository /apk/custom bind; \
       apk --no-cache upgrade;
 
   # :: copy root filesystem changes and add execution rights to init scripts
