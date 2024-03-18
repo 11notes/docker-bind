@@ -1,7 +1,7 @@
 ![Banner](https://github.com/11notes/defaults/blob/main/static/img/banner.png?raw=true)
 
 # 🏔️ Alpine - BIND9
-![size](https://img.shields.io/docker/image-size/11notes/bind/9.18.19?color=0eb305) ![version](https://img.shields.io/docker/v/11notes/bind/9.18.19?color=eb7a09) ![pulls](https://img.shields.io/docker/pulls/11notes/bind?color=2b75d6) ![activity](https://img.shields.io/github/commit-activity/m/11notes/docker-bind?color=c91cb8) ![commit-last](https://img.shields.io/github/last-commit/11notes/docker-bind?color=c91cb8) ![stars](https://img.shields.io/docker/stars/11notes/bind?color=e6a50e)
+![size](https://img.shields.io/docker/image-size/11notes/bind/9.18.24?color=0eb305) ![version](https://img.shields.io/docker/v/11notes/bind/9.18.24?color=eb7a09) ![pulls](https://img.shields.io/docker/pulls/11notes/bind?color=2b75d6) ![activity](https://img.shields.io/github/commit-activity/m/11notes/docker-bind?color=c91cb8) ![commit-last](https://img.shields.io/github/last-commit/11notes/docker-bind?color=c91cb8) ![stars](https://img.shields.io/docker/stars/11notes/bind?color=e6a50e)
 
 **BIND9 DNS server**
 
