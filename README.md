@@ -27,6 +27,8 @@ services:
       - "53:53/udp"
       - "53:53/tcp"
       - "8053:8053/tcp"
+    sysctls:
+      - "net.ipv4.ip_unprivileged_port_start=53"
     restart: always
 volumes:
   etc:
