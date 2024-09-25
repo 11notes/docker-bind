@@ -1,9 +1,9 @@
 ![Banner](https://github.com/11notes/defaults/blob/main/static/img/banner.png?raw=true)
 
-# 🏔️ Alpine - BIND9
-![size](https://img.shields.io/docker/image-size/11notes/bind/9.18.24?color=0eb305) ![version](https://img.shields.io/docker/v/11notes/bind/9.18.24?color=eb7a09) ![pulls](https://img.shields.io/docker/pulls/11notes/bind?color=2b75d6) ![activity](https://img.shields.io/github/commit-activity/m/11notes/docker-bind?color=c91cb8) ![commit-last](https://img.shields.io/github/last-commit/11notes/docker-bind?color=c91cb8) ![stars](https://img.shields.io/docker/stars/11notes/bind?color=e6a50e)
+# 🏔️ Alpine - BIND
+![size](https://img.shields.io/docker/image-size/11notes/bind/9.18.30?color=0eb305) ![version](https://img.shields.io/docker/v/11notes/bind/9.18.30?color=eb7a09) ![pulls](https://img.shields.io/docker/pulls/11notes/bind?color=2b75d6)
 
-**BIND9 DNS server**
+**BIND DNS server**
 
 # SYNOPSIS
 What can I do with this? This image will run BIND9 DNS server precompiled for large installations and maximum performance.
@@ -12,12 +12,25 @@ What can I do with this? This image will run BIND9 DNS server precompiled for la
 * **/bind/etc** - Directory of named.conf
 * **/bind/var** - Directory of zone data
 
-# RUN
-```shell
-docker run --name bind \
-  -v .../etc:/bind/etc \
-  -v .../var:/bind/var \
-  -d 11notes/bind:[tag]
+# COMPOSE
+```yaml
+services:
+  bind:
+    image: "11notes/bind:9.18.30"
+    container_name: "bind"
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - "etc:/bind/etc"
+      - "var:/bind/var"
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "8053:8053/tcp"
+    restart: always
+volumes:
+  etc:
+  var:
 ```
 
 # EXAMPLES
@@ -56,19 +69,20 @@ server ::/0 { bogus yes; };
 | `TZ` | [Time Zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) | |
 | `DEBUG` | Show debug information | |
 
+# SOURCE
+* [11notes/bind](https://github.com/11notes/docker-bind)
+
 # PARENT IMAGE
 * [11notes/alpine:stable](https://hub.docker.com/r/11notes/alpine)
 
 # BUILT WITH
-* [bind9](https://www.isc.org/downloads/bind)
+* [bind](https://www.isc.org/downloads/bind)
 * [alpine](https://alpinelinux.org)
 
 # TIPS
-* Only use rootless container runtime (podman, rootless docker)
-* Allow non-root ports < 1024 via `echo "net.ipv4.ip_unprivileged_port_start=53" > /etc/sysctl.d/ports.conf`
 * Use a reverse proxy like Traefik, Nginx to terminate TLS with a valid certificate
 * Use Let’s Encrypt certificates to protect your SSL endpoints
 
 # ElevenNotes<sup>™️</sup>
-This image is provided to you at your own risk. Always make backups before updating an image to a new version. Check the changelog for breaking changes.
+This image is provided to you at your own risk. Always make backups before updating an image to a new version. Check the changelog for breaking changes. You can find all my repositories on [github](https://github.com/11notes).
     

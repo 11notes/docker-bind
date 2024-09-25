@@ -1,0 +1,17 @@
+services:
+  bind:
+    image: "11notes/bind:9.18.30"
+    container_name: "bind"
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - "etc:/bind/etc"
+      - "var:/bind/var"
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "8053:8053/tcp"
+    restart: always
+volumes:
+  etc:
+  var:
