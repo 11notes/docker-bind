@@ -8,7 +8,7 @@
 
 # :: Build
   FROM 11notes/alpine:stable as build
-  ARG BUILD_VERSION=9.18.30
+  ARG BUILD_VERSION=9.18.31
   ARG BUILD_DIR=/bind9
 
   USER root
@@ -79,14 +79,14 @@
 
   RUN set -ex; \
     cd ${BUILD_DIR}; \
-    make install-strip;
+    make install;
 
 # :: Header
   FROM 11notes/alpine:stable
-  COPY --from=util /util/linux/shell/elevenLogJSON /usr/local/bin
+  COPY --from=util /util/docker /usr/local/bin
   COPY --from=build /opt/bind /opt/bind
   ENV APP_NAME="bind"
-  ENV APP_VERSION=9.18.30
+  ENV APP_VERSION=9.18.31
   ENV APP_ROOT=/bind
 
 # :: Run
@@ -111,10 +111,6 @@
         jemalloc \
         krb5;
 
-  # :: upgrade
-    RUN set -ex; \
-      apk --no-cache --update upgrade;
-
   # :: copy root filesystem
     COPY ./rootfs /
     RUN set -ex; \
@@ -131,7 +127,7 @@
   VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
 
 # :: Monitor
-  HEALTHCHECK CMD /usr/local/bin/healthcheck.sh || exit 1
+  HEALTHCHECK --interval=5s --timeout=3s CMD /usr/local/bin/healthcheck.sh || exit 1
 
 # :: Start
   USER docker

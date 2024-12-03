@@ -1,0 +1,55 @@
+name: "authoritative"
+services:
+  master:
+    image: "11notes/bind:9.18.31"
+    container_name: "master"
+    command: ["master"]
+    environment:
+      TZ: "Europe/Zurich"
+      BIND_SLAVES: "10.255.53.2;10.255.53.3;"
+    networks:
+       macvlan:
+        ipv4_address: 10.255.53.1
+    sysctls:
+      - "net.ipv4.ip_unprivileged_port_start=53"
+    restart: always
+
+  slave1:
+    image: "11notes/bind:9.18.31"
+    container_name: "slave1"
+    command: ["slave"]
+    environment:
+      TZ: "Europe/Zurich"
+      BIND_MASTERS: "10.255.53.1;"
+    networks:
+       macvlan:
+        ipv4_address: 10.255.53.2
+    sysctls:
+      - "net.ipv4.ip_unprivileged_port_start=53"
+    restart: always
+
+  slave2:
+    image: "11notes/bind:9.18.31"
+    container_name: "slave2"
+    command: ["slave"]
+    environment:
+      TZ: "Europe/Zurich"
+      BIND_MASTERS: "10.255.53.1;"
+    networks:
+       macvlan:
+        ipv4_address: 10.255.53.3
+    sysctls:
+      - "net.ipv4.ip_unprivileged_port_start=53"
+    restart: always
+volumes:
+  etc:
+  var:
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: "10.255.53.0/24"
+          gateway: "10.255.53.254"

@@ -1,2 +1,2 @@
 #!/bin/ash
-	dig . NS @localhost || exit 1
+  /opt/bind/bin/dig +time=2 +tries=1 . NS @localhost || exit 1

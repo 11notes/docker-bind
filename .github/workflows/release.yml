@@ -14,13 +14,19 @@ jobs:
   release:
     name: release
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
     steps:
       - name: create release notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
+          set -ex; \
+          wget -O ./RELEASE.md https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/refs/heads/master/RELEASE.md; \
           gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
               --title="${tag#v}" \
-              --generate-notes
+              -F ./RELEASE.md

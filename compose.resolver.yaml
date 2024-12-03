@@ -1,12 +1,11 @@
+name: "resolver"
 services:
-  bind:
+  resolver:
     image: "11notes/bind:9.18.31"
-    container_name: "bind"
+    container_name: "resolver"
+    command: ["resolver"]
     environment:
       TZ: "Europe/Zurich"
-    volumes:
-      - "etc:/bind/etc"
-      - "var:/bind/var"
     ports:
       - "53:53/udp"
       - "53:53/tcp"
@@ -14,6 +13,3 @@ services:
     sysctls:
       - "net.ipv4.ip_unprivileged_port_start=53"
     restart: always
-volumes:
-  etc:
-  var:

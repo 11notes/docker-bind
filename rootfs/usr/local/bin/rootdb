@@ -6,4 +6,4 @@
     ROOT_DB_NS=a.root-servers.net
   fi
 
-  dig +bufsize=1200 +norec NS . @${ROOT_DB_NS} | egrep -v ';|^$' | egrep -v '\S.+AAAA.+|^$' | sort > /bind/var/root.db
+  /opt/bind/bin/dig +bufsize=1200 +norec NS . @${ROOT_DB_NS} | egrep -v ';|^$' | egrep -v '\S.+AAAA.+|^$' | sort > /bind/var/root.db

@@ -1,0 +1,32 @@
+#!/bin/ash
+
+  # create dummy zone
+  DB=${APP_ROOT}/var/${1}.db
+  cat <<EOT > ${APP_ROOT}/var/${1}.db
+${1}. IN SOA . . 1 28800 7200 604800 86400
+${1}. IN NS ns1.${1}.
+ns1.${1}. IN A ${2}
+EOT
+
+  # change workdir
+  cd ${APP_ROOT}/etc
+
+  # create TSIG for new zone
+  KEY=$(head -200 /dev/urandom | cksum | cut -f1 -d " " | sha256sum | tr -d "[:space:]-")
+  echo "key \"${1}\" { algorithm hmac-sha256; secret \"${KEY}\"; };" >> /bind/etc/keys.conf
+
+  # add new zone to master
+  /opt/bind/sbin/rndc addzone ${1} IN authoritative '{type primary; file "'${DB}'"; allow-update { key '${1}'.; key root.; 127.0.0.1; }; };'
+
+  # update catalog with new zone
+  UID=$(echo "${1}" | sha1sum | tr -d "[:space:]-")
+  cat <<EOT | /opt/bind/bin/nsupdate
+server 127.0.0.1 53
+update add ${UID}.zones.catalog.home.arpa 3600 IN PTR ${1}
+send
+EOT
+
+  elevenLogJSON info "added new zone ${1} to catalog as ${UID}.zones.catalog.home.arpa"
+
+  # reload config due to new keys
+  /opt/bind/sbin/rndc reload &> /dev/null
