@@ -1,6 +1,6 @@
 #!/bin/ash
   if [ ! -f "/bind/var/root.db" ]; then
-    elevenLogJSON debug "no root db found, using IP of a.root"
+    eleven log debug "no root db found, using IP of a.root"
     ROOT_DB_NS=198.41.0.4
   else
     ROOT_DB_NS=a.root-servers.net

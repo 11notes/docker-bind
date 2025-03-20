@@ -41,9 +41,11 @@ services:
     sysctls:
       - "net.ipv4.ip_unprivileged_port_start=53"
     restart: always
+    
 volumes:
   etc:
   var:
+
 networks:
   macvlan:
     driver: macvlan

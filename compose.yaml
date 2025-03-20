@@ -1,7 +1,8 @@
+name: "bind"
 services:
   bind:
-    image: "11notes/bind:9.18.31"
-    container_name: "bind"
+    image: "11notes/bind:9.18.35"
+    command: ["master"]
     environment:
       TZ: "Europe/Zurich"
     volumes:
@@ -11,9 +12,15 @@ services:
       - "53:53/udp"
       - "53:53/tcp"
       - "8053:8053/tcp"
+    networks:
+      frontend:
     sysctls:
-      - "net.ipv4.ip_unprivileged_port_start=53"
-    restart: always
+      net.ipv4.ip_unprivileged_port_start: 53
+    restart: "always"
+
 volumes:
   etc:
   var:
+
+networks:
+  frontend:

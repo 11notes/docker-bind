@@ -26,7 +26,7 @@ update add ${UID}.zones.catalog.home.arpa 3600 IN PTR ${1}
 send
 EOT
 
-  elevenLogJSON info "added new zone ${1} to catalog as ${UID}.zones.catalog.home.arpa"
+  eleven log info "added new zone ${1} to catalog as ${UID}.zones.catalog.home.arpa"
 
   # reload config due to new keys
   /opt/bind/sbin/rndc reload &> /dev/null
