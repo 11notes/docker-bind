@@ -1,5 +1,17 @@
 ${{ content_synopsis }} This image will run BIND9 DNS server precompiled for large installations and maximum performance. It also offers three operating modes: Master, Slave and Resolver set via **command: ["mode"]**.
 
+${{ content_uvp }} Good question! All the other images on the market that do exactly the same don’t do or offer these options:
+
+${{ github:> [!IMPORTANT] }}
+${{ github:> }}* This image runs as 1000:1000 by default, most other images run everything as root
+${{ github:> }}* This image is created via a secure, pinned CI/CD process and immune to upstream attacks, most other images have upstream dependencies that can be exploited
+${{ github:> }}* This image contains a proper health check that verifies the app is actually working, most other images have either no health check or only check if a port is open or ping works
+${{ github:> }}* This image is a lot smaller than most other images
+
+If you value security, simplicity and the ability to interact with the maintainer and developer of an image. Using my images is a great start in that direction.
+
+${{ content_comparison }}
+
 # Master
 If run as master, set the IPs of the slaves via *BIND_SLAVES*. Bind will operate with catalog zones for all slaves. You can add new zones via the *addzone* script that requires the zone name and the IP of at least one NS (slave). You can then use nsupdate to update the master with new records and all changes are populates to all slaves automatically. Add a new zone like this:
 
