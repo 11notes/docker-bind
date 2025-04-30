@@ -1,23 +1,21 @@
 {
-  "image":"11notes/bind",
-  "name":"bind",
-  "root":"/bind",
-  
-  "semver":{
-    "version":"9.18.35",
-    "stable":"9.18.35"
+  "image": "11notes/bind",
+  "name": "bind",
+  "root": "/bind",
+  "semver": {
+    "version": "9.18.36",
+    "stable": "9.18.36"
   },
-
-  "readme":{
-    "description":"High performance bind with default operating modes",
-    "parent":{
-      "image":"11notes/alpine:stable"
+  "readme": {
+    "description": "High performance bind with default operating modes",
+    "parent": {
+      "image": "11notes/alpine:stable"
     },
-    "built":{
-      "bind":"https://gitlab.isc.org/isc-projects/bind9"
+    "built": {
+      "bind": "https://gitlab.isc.org/isc-projects/bind9"
     },
-    "comparison":{
-      "image":"internetsystemsconsortium/bind9:9.18"
+    "comparison": {
+      "image": "internetsystemsconsortium/bind9:9.18"
     }
   }
 }

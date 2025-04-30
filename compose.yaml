@@ -1,7 +1,7 @@
 name: "bind"
 services:
   bind:
-    image: "11notes/bind:9.18.35"
+    image: "11notes/bind:9.18.36"
     command: ["master"]
     environment:
       TZ: "Europe/Zurich"

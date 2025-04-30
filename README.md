@@ -1,16 +1,22 @@
 ![banner](https://github.com/11notes/defaults/blob/main/static/img/banner.png?raw=true)
 
-# ⛰️ bind
-[<img src="https://img.shields.io/badge/github-source-blue?logo=github&color=040308">](https://github.com/11notes/docker-bind)![size](https://img.shields.io/docker/image-size/11notes/bind/9.18.35?color=0eb305)![version](https://img.shields.io/docker/v/11notes/bind/9.18.35?color=eb7a09)![pulls](https://img.shields.io/docker/pulls/11notes/bind?color=2b75d6)[<img src="https://img.shields.io/github/issues/11notes/docker-bind?color=7842f5">](https://github.com/11notes/docker-bind/issues)
+# BIND
+[<img src="https://img.shields.io/badge/github-source-blue?logo=github&color=040308">](https://github.com/11notes/docker-BIND)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![size](https://img.shields.io/docker/image-size/11notes/bind/9.18.36?color=0eb305)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![version](https://img.shields.io/docker/v/11notes/bind/9.18.36?color=eb7a09)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![pulls](https://img.shields.io/docker/pulls/11notes/bind?color=2b75d6)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)[<img src="https://img.shields.io/github/issues/11notes/docker-BIND?color=7842f5">](https://github.com/11notes/docker-BIND/issues)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![swiss_made](https://img.shields.io/badge/Swiss_Made-FFFFFF?labelColor=FF0000&logo=data:image/svg%2bxml;base64,PHN2ZyB2ZXJzaW9uPSIxIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0wIDBoMzJ2MzJoLTMyeiIgZmlsbD0iI2YwMCIvPjxwYXRoIGQ9Im0xMyA2aDZ2N2g3djZoLTd2N2gtNnYtN2gtN3YtNmg3eiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==)
 
 High performance bind with default operating modes
 
 # MAIN TAGS 🏷️
 These are the main tags for the image. There is also a tag for each commit and its shorthand sha256 value.
 
-* [9.18.35](https://hub.docker.com/r/11notes/bind/tags?name=9.18.35)
+* [9.18.36](https://hub.docker.com/r/11notes/bind/tags?name=9.18.36)
 * [stable](https://hub.docker.com/r/11notes/bind/tags?name=stable)
-* [latest](https://hub.docker.com/r/11notes/bind/tags?name=latest)
+
+# REPOSITORIES ☁️
+```
+docker pull 11notes/bind:9.18.36
+docker pull ghcr.io/11notes/bind:9.18.36
+docker pull quay.io/11notes/bind:9.18.36
+```
 
 # SYNOPSIS 📖
 **What can I do with this?** This image will run BIND9 DNS server precompiled for large installations and maximum performance. It also offers three operating modes: Master, Slave and Resolver set via **command: ["mode"]**.
@@ -39,7 +45,7 @@ If run as a resolver, it will cache all results and use the root zone NS to crea
 name: "bind"
 services:
   bind:
-    image: "11notes/bind:9.18.35"
+    image: "11notes/bind:9.18.36"
     command: ["master"]
     environment:
       TZ: "Europe/Zurich"
@@ -81,7 +87,7 @@ networks:
 | `BIND_MASTERS` | IPs of bind master if using authoritative slave (add ;) | |
 
 # SOURCE 💾
-* [11notes/bind](https://github.com/11notes/docker-bind)
+* [11notes/bind](https://github.com/11notes/docker-BIND)
 
 # PARENT IMAGE 🏛️
 * [11notes/alpine:stable](https://hub.docker.com/r/11notes/alpine)
@@ -91,10 +97,11 @@ networks:
 * [11notes/util](https://github.com/11notes/docker-util)
 
 # GENERAL TIPS 📌
-* Use a reverse proxy like Traefik, Nginx, HAproxy to terminate TLS and to protect your endpoints
-* Use Let’s Encrypt DNS-01 challenge to obtain valid SSL certificates for your services
+> [!TIP]
+>* Use a reverse proxy like Traefik, Nginx, HAproxy to terminate TLS and to protect your endpoints
+>* Use Let’s Encrypt DNS-01 challenge to obtain valid SSL certificates for your services
 
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-bind/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-bind/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-bind/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 20.03.2025, 14:46:24 (CET)*
+*created 30.04.2025, 11:05:48 (CET)*
