@@ -6,7 +6,7 @@
   ARG APP_VERSION
   ENV BUILD_ROOT=/git/bind9
   RUN set -ex; \
-    apk add --no-cache --update \
+    apk --update --no-cache add \
       alpine-sdk \
       openssl-dev \
       libuv-dev \
@@ -61,8 +61,9 @@
         --enable-largefile \
         --enable-linux-caps \
         --enable-shared \
-        --disable-static \
+        --disable-static \ 
         --enable-full-report;
+      # configure: error: Static linking is not supported as it disables dlopen() and certain security features (e.g. RELRO, ASLR)
   
     RUN set -ex; \
       cd ${BUILD_ROOT}; \
