@@ -5,8 +5,7 @@
   
   "semver":{
     "version":"9.18.35",
-    "stable":"9.18.35",
-    "latest":"9.18.35"
+    "stable":"9.18.35"
   },
 
   "readme":{
@@ -16,6 +15,9 @@
     },
     "built":{
       "bind":"https://gitlab.isc.org/isc-projects/bind9"
+    },
+    "comparison":{
+      "image":"internetsystemsconsortium/bind9:9.18"
     }
   }
 }
