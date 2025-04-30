@@ -5,6 +5,9 @@
   FROM alpine/git AS build
   ARG APP_VERSION
   ENV BUILD_ROOT=/git/bind9
+
+  COPY --from=util /usr/local/bin /usr/local/bin
+
   RUN set -ex; \
     apk --update --no-cache add \
       alpine-sdk \
@@ -36,6 +39,7 @@
       openssl-dev>3 \
       perl \
       protobuf-c-dev \
+      upx \
       g++;
 
     RUN set -ex; \
@@ -92,7 +96,7 @@
     ENV APP_ROOT=${APP_ROOT}
 
   # :: multi-stage
-    COPY --from=util /usr/local/bin/ /usr/local/bin
+    COPY --from=util /usr/local/bin /usr/local/bin
     COPY --from=build /opt/bind /opt/bind
 
 # :: Run
