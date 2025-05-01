@@ -16,10 +16,32 @@ These are the main tags for the image. There is also a tag for each commit and i
 docker pull 11notes/bind:9.18.36
 docker pull ghcr.io/11notes/bind:9.18.36
 docker pull quay.io/11notes/bind:9.18.36
-```
+```**There is no latest tag, how am I supposed to use this image at all?** It is of my opinion that the ```:latest``` tag is super dangerous. Many times, I’ve introduced **breaking** changes to my images. This would have messed up everything for some people. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using 9.18.36 you can use 9 or 9.18. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version.
 
 # SYNOPSIS 📖
 **What can I do with this?** This image will run BIND9 DNS server precompiled for large installations and maximum performance. It also offers three operating modes: Master, Slave and Resolver set via **command: ["mode"]**.
+
+# UNIQUE VALUE PROPOSITION 💶
+**Why should I run this image and not the other image(s) that already exist?** Good question! All the other images on the market that do exactly the same don’t do or offer these options:
+
+> [!IMPORTANT]
+>* This image runs as 1000:1000 by default, most other images run everything as root
+>* This image is created via a secure, pinned CI/CD process and immune to upstream attacks, most other images have upstream dependencies that can be exploited
+>* This image contains a proper health check that verifies the app is actually working, most other images have either no health check or only check if a port is open or ping works
+>* This image is a lot smaller than most other images
+
+If you value security, simplicity and the ability to interact with the maintainer and developer of an image. Using my images is a great start in that direction.
+
+# COMPARISON 🏁
+Below you find a comparison between this image and the most used or original one.
+
+| ![128px](https://github.com/11notes/defaults/blob/main/static/img/transparent128x1px.png?raw=true)**image** | 11notes/bind:9.18.36 | internetsystemsconsortium/bind9:9.18 |
+| ---: | :---: | :---: |
+| **image size on disk** | 44.8MB | 39.4MB |
+| **process UID/GID** | 1000/1000 | 0/0 |
+| **distroless?** | ❌ | ❌ |
+| **rootless?** | ✅ | ❌ |
+
 
 # Master
 If run as master, set the IPs of the slaves via *BIND_SLAVES*. Bind will operate with catalog zones for all slaves. You can add new zones via the *addzone* script that requires the zone name and the IP of at least one NS (slave). You can then use nsupdate to update the master with new records and all changes are populates to all slaves automatically. Add a new zone like this:
@@ -104,4 +126,4 @@ networks:
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-bind/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-bind/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-bind/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 30.04.2025, 11:05:48 (CET)*
+*created 30.04.2025, 12:23:40 (CET)*
