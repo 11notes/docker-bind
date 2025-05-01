@@ -1,3 +1,6 @@
+ARG APP_UID=1000
+ARG APP_GID=1000
+
 # :: Util
   FROM 11notes/util AS util
 
@@ -123,7 +126,7 @@
     COPY ./rootfs /
     RUN set -ex; \
       chmod +x -R /usr/local/bin; \
-      chown -R 1000:1000 \
+      chown -R ${APP_UID}:${APP_GID} \
         ${APP_ROOT} \
         /var/run/named;
 
@@ -131,7 +134,7 @@
   VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
 
 # :: Monitor
-  HEALTHCHECK --interval=5s --timeout=2s CMD dig +time=2 +tries=1 . NS @localhost || exit 1
+  HEALTHCHECK --interval=5s --timeout=2s CMD ["/opt/bind/bin/dig", "+time=2", "+tries=1", ".", "NS", "@localhost"]
 
 # :: Start
-  USER docker
+  USER ${APP_UID}:${APP_GID}
