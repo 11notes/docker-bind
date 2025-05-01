@@ -80,6 +80,12 @@ ARG APP_GID=1000
       cd ${BUILD_ROOT}; \
       make install;
 
+    RUN set -ex; \
+      # start stripping
+      find /opt/bind/bin -type f -executable -exec eleven strip {} ";" ; \
+      find /opt/bind/sbin -type f -executable -exec eleven strip {} ";" ; \
+      find /opt/bind/ -name *.so -exec strip -v {} &> /dev/null ";" ;
+
 # :: Header
   FROM 11notes/alpine:stable
 
