@@ -15,6 +15,7 @@ High performance bind with default operating modes
 >* This image runs as 1000:1000 by default, most other images run everything as root
 >* This image is created via a secure, pinned CI/CD process and immune to upstream attacks, most other images have upstream dependencies that can be exploited
 >* This image contains a proper health check that verifies the app is actually working, most other images have either no health check or only check if a port is open or ping works
+>* This repository has an auto update feature that will automatically build the latest version if released, most other providers don't do this
 >* This image is a lot smaller than most other images
 
 If you value security, simplicity and the ability to interact with the maintainer and developer of an image. Using my images is a great start in that direction.
@@ -129,4 +130,4 @@ docker pull quay.io/11notes/bind:9.18.36
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-bind/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-bind/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-bind/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 01.05.2025, 07:41:37 (CET)*
+*created 01.05.2025, 07:54:45 (CET)*
