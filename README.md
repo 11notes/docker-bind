@@ -5,19 +5,6 @@
 
 High performance bind with default operating modes
 
-# MAIN TAGS 🏷️
-These are the main tags for the image. There is also a tag for each commit and its shorthand sha256 value.
-
-* [9.18.36](https://hub.docker.com/r/11notes/bind/tags?name=9.18.36)
-* [stable](https://hub.docker.com/r/11notes/bind/tags?name=stable)
-
-# REPOSITORIES ☁️
-```
-docker pull 11notes/bind:9.18.36
-docker pull ghcr.io/11notes/bind:9.18.36
-docker pull quay.io/11notes/bind:9.18.36
-```**There is no latest tag, how am I supposed to use this image at all?** It is of my opinion that the ```:latest``` tag is super dangerous. Many times, I’ve introduced **breaking** changes to my images. This would have messed up everything for some people. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using 9.18.36 you can use 9 or 9.18. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version.
-
 # SYNOPSIS 📖
 **What can I do with this?** This image will run BIND9 DNS server precompiled for large installations and maximum performance. It also offers three operating modes: Master, Slave and Resolver set via **command: ["mode"]**.
 
@@ -35,7 +22,7 @@ If you value security, simplicity and the ability to interact with the maintaine
 # COMPARISON 🏁
 Below you find a comparison between this image and the most used or original one.
 
-| ![128px](https://github.com/11notes/defaults/blob/main/static/img/transparent128x1px.png?raw=true)**image** | 11notes/bind:9.18.36 | internetsystemsconsortium/bind9:9.18 |
+| **image** | 11notes/bind:9.18.36 | internetsystemsconsortium/bind9:9.18 |
 | ---: | :---: | :---: |
 | **image size on disk** | 44.8MB | 39.4MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
@@ -108,6 +95,22 @@ networks:
 | `BIND_SLAVES` | IPs of bind slaves if using authoritative master (add ;) | |
 | `BIND_MASTERS` | IPs of bind master if using authoritative slave (add ;) | |
 
+# MAIN TAGS 🏷️
+These are the main tags for the image. There is also a tag for each commit and its shorthand sha256 value.
+
+* [9.18.36](https://hub.docker.com/r/11notes/bind/tags?name=9.18.36)
+* [stable](https://hub.docker.com/r/11notes/bind/tags?name=stable)
+
+### There is no latest tag, what am I supposed to do about updates?
+It is of my opinion that the ```:latest``` tag is super dangerous. Many times, I’ve introduced **breaking** changes to my images. This would have messed up everything for some people. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using ```:9.18.36``` you can use ```:9``` or ```:9.18```. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version.
+
+# REGISTRIES ☁️
+```
+docker pull 11notes/bind:9.18.36
+docker pull ghcr.io/11notes/bind:9.18.36
+docker pull quay.io/11notes/bind:9.18.36
+```
+
 # SOURCE 💾
 * [11notes/bind](https://github.com/11notes/docker-BIND)
 
@@ -126,4 +129,4 @@ networks:
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-bind/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-bind/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-bind/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 30.04.2025, 12:23:40 (CET)*
+*created 01.05.2025, 07:41:37 (CET)*
