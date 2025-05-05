@@ -3,8 +3,8 @@
   "name": "bind",
   "root": "/bind",
   "semver": {
-    "version": "9.18.36",
-    "stable": "9.18.36"
+    "version": "9.18.32",
+    "stable": "9.18.32"
   },
   "readme": {
     "description": "High performance bind with default operating modes",
