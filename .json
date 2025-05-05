@@ -3,7 +3,7 @@
   "name": "bind",
   "root": "/bind",
   "semver": {
-    "version": "9.18.32",
+    "version": "9.18.36",
     "stable": "9.18.32"
   },
   "readme": {
