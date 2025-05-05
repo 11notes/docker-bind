@@ -25,7 +25,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | 11notes/bind:9.18.36 | internetsystemsconsortium/bind9:9.18 |
 | ---: | :---: | :---: |
-| **image size on disk** | 44.8MB | 39.4MB |
+| **image size on disk** | 30.5MB | 39.4MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
 | **distroless?** | ❌ | ❌ |
 | **rootless?** | ✅ | ❌ |
@@ -130,4 +130,4 @@ docker pull quay.io/11notes/bind:9.18.36
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-bind/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-bind/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-bind/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 01.05.2025, 07:54:45 (CET)*
+*created 01.05.2025, 08:09:31 (CET)*
