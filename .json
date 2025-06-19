@@ -3,7 +3,7 @@
   "name": "bind",
   "root": "/bind",
   "semver": {
-    "version": "9.18.37",
+    "version": "9.20.10",
     "stable": "9.18.32"
   },
   "readme": {
@@ -15,7 +15,7 @@
       "bind": "https://gitlab.isc.org/isc-projects/bind9"
     },
     "comparison": {
-      "image": "internetsystemsconsortium/bind9:9.18"
+      "image": "internetsystemsconsortium/bind9:9.20"
     }
   }
 }
