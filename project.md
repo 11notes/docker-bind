@@ -1,15 +1,17 @@
 ${{ content_synopsis }} This image will run BIND9 DNS server precompiled for large installations and maximum performance. It also offers three operating modes: Master, Slave and Resolver set via **command: ["mode"]**.
 
-${{ content_uvp }} Good question! All the other images on the market that do exactly the same don’t do or offer these options:
+${{ content_uvp }} Good question! Because ...
 
 ${{ github:> [!IMPORTANT] }}
-${{ github:> }}* This image runs as 1000:1000 by default, most other images run everything as root
-${{ github:> }}* This image is created via a secure, pinned CI/CD process and immune to upstream attacks, most other images have upstream dependencies that can be exploited
-${{ github:> }}* This image contains a proper health check that verifies the app is actually working, most other images have either no health check or only check if a port is open or ping works
-${{ github:> }}* This repository has an auto update feature that will automatically build the latest version if released, most other providers don't do this
-${{ github:> }}* This image is a lot smaller than most other images
+${{ github:> }}* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
+${{ github:> }}* ... this image is auto updated to the latest version via CI/CD
+${{ github:> }}* ... this image has a health check
+${{ github:> }}* ... this image runs read-only
+${{ github:> }}* ... this image is automatically scanned for CVEs before and after publishing
+${{ github:> }}* ... this image is created via a secure and pinned CI/CD process
+${{ github:> }}* ... this image is very small
 
-If you value security, simplicity and the ability to interact with the maintainer and developer of an image. Using my images is a great start in that direction.
+If you value security, simplicity and optimizations to the extreme, then this image might be for you.
 
 ${{ content_comparison }}
 
@@ -20,13 +22,13 @@ If run as master, set the IPs of the slaves via *BIND_SLAVES*. Bind will operate
 docker exec master addzone contoso.com 10.255.53.52
 ```
 
-It will automatically create a default zone and populate it as well as add a random key for managing the zone via nsupdate or via the dynamically created root key at startup (check /bind/etc/keys.conf for generated keys). Checkout **compose.authoritative.yaml** for an example.
+It will automatically create a default zone and populate it as well as add a random key for managing the zone via nsupdate or via the dynamically created root key at startup (check /bind/etc/keys.conf for generated keys). Checkout **compose.authoritative.yml** for an example.
 
 # Slave
 If run as slave, make sure you set the *BIND_MASTERS* IPs so they will pickup all changes automatically. The slave enables recursion, so make sure you have a resolver present to resolve queries not handles by the slave. The slave will respond to all IPs on RFC1918 by default. You can setup your own config as well. You can run as many slaves as you like.
 
 # Resolver
-If run as a resolver, it will cache all results and use the root zone NS to create its own cache database for all records requested. Make sure the resolver has internet access. The resolver will accept all connections from any RFC1918 address. Checkout **compose.resolver.yaml** for an example.
+If run as a resolver, it will cache all results and use the root zone NS to create its own cache database for all records requested. Make sure the resolver has internet access. The resolver will accept all connections from any RFC1918 address. Checkout **compose.resolver.yml** for an example.
 
 ${{ title_volumes }}
 * **${{ json_root }}/etc** - Directory of named.conf

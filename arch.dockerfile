@@ -1,55 +1,61 @@
-ARG APP_UID=1000
-ARG APP_GID=1000
+# ╔═════════════════════════════════════════════════════╗
+# ║                       SETUP                         ║
+# ╚═════════════════════════════════════════════════════╝
+# GLOBAL
+  ARG APP_UID= \
+      APP_GID= \
+      APP_VERSION
 
-# :: Util
+# :: FOREIGN IMAGES
   FROM 11notes/util AS util
+  FROM 11notes/util:bin AS util-bin
+  FROM 11notes/distroless AS distroless
 
-# :: Build / bind
-  FROM alpine/git AS build
+
+# ╔═════════════════════════════════════════════════════╗
+# ║                       BUILD                         ║
+# ╚═════════════════════════════════════════════════════╝
+# :: BIND
+  FROM alpine AS build
   ARG APP_VERSION
-  ENV BUILD_ROOT=/git/bind9
-
-  COPY --from=util /usr/local/bin /usr/local/bin
+  COPY --from=util-bin / /
 
   RUN set -ex; \
     apk --update --no-cache add \
+      git \
       alpine-sdk \
-      openssl-dev \
-      libuv-dev \
-      curl \
-      wget \
-      unzip \
+      autoconf \
+      automake \
+      libtool \
       build-base \
       linux-headers \
       make \
       cmake \
-      autoconf \
-      automake \
-      libtool \
+      g++; \
+    apk --update --no-cache add \
       bash \
-      userspace-rcu \
       fstrm-dev \
-      jemalloc-dev \
-      json-c-dev \
-      libidn2-dev \
       krb5-dev \
       libcap-dev \
       libuv-dev \
-      libxml2-dev \
+      libidn2-dev \
+      libxml2-dev~2.13 \
+      jemalloc-dev \
+      json-c-dev \
       linux-headers \
       nghttp2-dev \
       openldap-dev \
       openssl-dev>3 \
       perl \
       protobuf-c-dev \
-      upx \
-      g++;
+      userspace-rcu-dev \
+      dnssec-root;
 
     RUN set -ex; \
       git clone https://gitlab.isc.org/isc-projects/bind9.git -b v${APP_VERSION};
 
     RUN set -ex; \
-      cd ${BUILD_ROOT}; \
+      cd /bind9; \
       autoreconf --install; \
       ./configure \
         --prefix=/opt/bind \
@@ -69,78 +75,77 @@ ARG APP_GID=1000
         --enable-linux-caps \
         --enable-shared \
         --disable-static \ 
-        --enable-full-report;
-      # configure: error: Static linking is not supported as it disables dlopen() and certain security features (e.g. RELRO, ASLR)
-  
-    RUN set -ex; \
-      cd ${BUILD_ROOT}; \
-      make -j$(nproc);
-  
-    RUN set -ex; \
-      cd ${BUILD_ROOT}; \
+        --enable-full-report; \
+      make -s -j $(nproc) 2>&1 > /dev/null; \
       make install;
 
-    RUN set -ex; \
-      # start stripping
-      find /opt/bind/bin -type f -executable -exec eleven strip {} ";" ; \
-      find /opt/bind/sbin -type f -executable -exec eleven strip {} ";" ; \
-      find /opt/bind/ -name *.so -exec strip -v {} &> /dev/null ";" ;
 
-# :: Header
+# :: FILE SYSTEM
+  FROM alpine AS file-system
+  ARG APP_ROOT
+  COPY --from=util / /
+  COPY ./rootfs/ /distroless
+
+  RUN set -ex; \
+    eleven mkdir /distroless${APP_ROOT}/{etc,var};
+
+  RUN set -ex; \
+    chmod +x -R /distroless/usr/local/bin;
+
+
+# ╔═════════════════════════════════════════════════════╗
+# ║                       IMAGE                         ║
+# ╚═════════════════════════════════════════════════════╝
+# :: HEADER
   FROM 11notes/alpine:stable
 
-  # :: arguments
-    ARG TARGETARCH
-    ARG APP_IMAGE
-    ARG APP_NAME
-    ARG APP_VERSION
-    ARG APP_ROOT
-    ARG APP_UID
-    ARG APP_GID
+  # :: default arguments
+    ARG TARGETPLATFORM \
+        TARGETOS \
+        TARGETARCH \
+        TARGETVARIANT \
+        APP_IMAGE \
+        APP_NAME \
+        APP_VERSION \
+        APP_ROOT \
+        APP_UID \
+        APP_GID \
+        APP_NO_CACHE
 
-  # :: environment
-    ENV APP_IMAGE=${APP_IMAGE}
-    ENV APP_NAME=${APP_NAME}
-    ENV APP_VERSION=${APP_VERSION}
-    ENV APP_ROOT=${APP_ROOT}
+  # :: default environment
+    ENV APP_IMAGE=${APP_IMAGE} \
+        APP_NAME=${APP_NAME} \
+        APP_VERSION=${APP_VERSION} \
+        APP_ROOT=${APP_ROOT}
 
   # :: multi-stage
-    COPY --from=util /usr/local/bin /usr/local/bin
     COPY --from=build /opt/bind /opt/bind
+    COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
 
-# :: Run
+# :: SETUP
   USER root
-  RUN eleven printenv;
 
-  # :: install application
-    RUN set -ex; \
-      eleven mkdir ${APP_ROOT}/{etc,var}; \
-      mkdir -p /var/run/named;
+  RUN set -ex; \
+    apk --no-cache --update add \
+      json-c \
+      libuv \
+      libxml2 \
+      protobuf-c \
+      fstrm \
+      libcap \
+      jemalloc \
+      userspace-rcu \
+      nghttp2-libs \
+      libidn2 \
+      krb5;
 
-    RUN set -ex; \
-      apk --no-cache --update add \
-        json-c \
-        libuv \
-        libxml2 \
-        protobuf-c \
-        fstrm \
-        libcap \
-        jemalloc \
-        krb5;
-
-  # :: copy filesystem changes and set correct permissions
-    COPY ./rootfs /
-    RUN set -ex; \
-      chmod +x -R /usr/local/bin; \
-      chown -R ${APP_UID}:${APP_GID} \
-        ${APP_ROOT} \
-        /var/run/named;
-
-# :: Volumes
+# :: PERSISTENT DATA
   VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
 
-# :: Monitor
-  HEALTHCHECK --interval=5s --timeout=2s CMD ["/opt/bind/bin/dig", "+time=2", "+tries=1", ".", "NS", "@localhost"]
+# :: MONITORING
+  HEALTHCHECK --interval=5s --timeout=2s --start-period=5s \
+    CMD ["/opt/bind/bin/dig", "+time=2", "+tries=1", ".", "NS", "@localhost"]
 
-# :: Start
+# :: EXECUTE
   USER ${APP_UID}:${APP_GID}
+  ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
