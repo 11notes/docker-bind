@@ -1,6 +1,9 @@
 name: docker
 run-name: ${{ inputs.run-name }}
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   workflow_dispatch:
     inputs:

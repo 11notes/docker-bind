@@ -1,5 +1,8 @@
 name: org.update
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   workflow_dispatch:
     inputs:
@@ -35,7 +38,7 @@ jobs:
       - name: update / setup node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: '20'
+          node-version: '24'
       - run: npm i semver
 
       - name: update / compare latest with current version
