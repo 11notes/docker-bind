@@ -15,8 +15,8 @@ services:
     environment:
       TZ: "Europe/Zurich"
     volumes:
-      - "etc:/bind/etc"
-      - "var:/bind/var"
+      - "bind.etc:/bind/etc"
+      - "bind.var:/bind/var"
     tmpfs:
       - "/var/run/named:uid=1000,gid=1000"
     ports:
@@ -30,8 +30,8 @@ services:
     restart: "always"
 
 volumes:
-  etc:
-  var:
+  bind.etc:
+  bind.var:
 
 networks:
   frontend:
