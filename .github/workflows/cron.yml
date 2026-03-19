@@ -32,24 +32,22 @@ jobs:
               const res = await fetch('https://www.isc.org/download/');
               if(res && res.status === 200){
                 const html = await res.text();
-                const trs = [...html.replace(/[\r\n]*/ig, '').matchAll(/<tr>(.*?)<\/tr>/ig)];
-                for(const tr of trs){
-                  const tds = [...tr[0].matchAll(/<td[^>]*>(.*?)<\/td>/ig)];
-                  if(Array.isArray(tds)){
-                    for(const td of tds){
-                      if(/This software is recommended for production use/i.test(td.input) && /Current Stable, ESV/i.test(td.input)){
-                        core.exportVariable('LATEST_VERSION', td[1]);
-                        core.info(`found bind version ${td[1]}`);
-                        found = true;
-                        break;
-                      }
+                const td = [...html.replace(/[\r\n]*/ig, '').matchAll(/<td[^>]*>(.*?)<\/td>/ig)];
+                for(let i=0; i<td.length; i++){
+                  if(/This software is recommended for production use/i.test(td[i][0]) && td[i+1]?.input && /Current Stable/i.test(td[i+1][0]) && td[i+2]?.input && /downloads\.isc\.org\/isc\/bind9/i.test(td[i+2][0]) && /download-version-text/i.test(td[i][1])){
+                    const div = [...td[i][1].matchAll(/<div[^>]*>(.*?)<\/div>/ig)];
+                    if(div.length >= 1){
+                      core.exportVariable('LATEST_VERSION', div[0][1]);
+                      core.info(`found bind version ${div[0][1]}`);
+                      found = true;
+                      break;
                     }
                   }
                 }
               }
 
               if(!found){
-                core.setFailed('no version for bind could be found!');
+                core.exportVariable('LATEST_VERSION', 'null');
               }
             })();
 
@@ -60,6 +58,7 @@ jobs:
 
       - name: call org.update
         uses: the-actions-org/workflow-dispatch@3133c5d135c7dbe4be4f9793872b6ef331b53bc7
+        if: env.LATEST_VERSION != 'null' && env.LATEST_VERSION != ''
         with:
           wait-for-completion: false
           workflow: org.update.yml
