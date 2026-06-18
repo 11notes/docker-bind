@@ -9,7 +9,7 @@ x-lockdown: &lockdown
 
 services:
   bind:
-    image: "11notes/bind:9.20.23"
+    image: "11notes/bind:9.20.24"
     <<: *lockdown
     command: ["master"]
     environment:
